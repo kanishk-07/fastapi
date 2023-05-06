@@ -1,11 +1,9 @@
 from fastapi import FastAPI
-import psycopg2
-from psycopg2.extras import RealDictCursor
-import time
-from . import models, schemas
+from . import models
 from .database import engine
-from .routers import post, user
+from .routers import post, user, auth
 from fastapi.middleware.cors import CORSMiddleware
+from .config import settings
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -19,18 +17,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-while True:
-    try:
-        conn = psycopg2.connect(host='localhost', database='fastapi', user='kanishk', password='asdfghjk', cursor_factory=RealDictCursor)
-        cursor = conn.cursor()
-        print('Database connection was successfull!')
-        break
-    except Exception as err:
-        print('Error while connecting to database', err)
-        time.sleep(2)
-
 app.include_router(post.router)
 app.include_router(user.router)
+app.include_router(auth.router)
 
 @app.get("/")
 async def root():
