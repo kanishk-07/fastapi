@@ -9,7 +9,7 @@ from app.database import get_db
 from app.database import Base
 from app.oauth2 import create_access_token
 from app import models
-#from alembic import command
+# from alembic import command
 
 SQLALCHEMY_DATABASE_URL = 'postgresql://kanishk:asdfghjk@localhost:5432/fastapi_test'
 
@@ -21,6 +21,7 @@ TestingSessionLocal = sessionmaker(
 
 @pytest.fixture()
 def session():
+    print("my session fixture ran")
     Base.metadata.drop_all(bind=engine)
     Base.metadata.create_all(bind=engine)
     db = TestingSessionLocal()
@@ -47,7 +48,9 @@ def test_user2(client):
     user_data = {"email": "sanjeev123@gmail.com",
                  "password": "password123"}
     res = client.post("/users/", json=user_data)
+
     assert res.status_code == 201
+
     new_user = res.json()
     new_user['password'] = user_data['password']
     return new_user
@@ -58,7 +61,9 @@ def test_user(client):
     user_data = {"email": "sanjeev@gmail.com",
                  "password": "password123"}
     res = client.post("/users/", json=user_data)
+
     assert res.status_code == 201
+
     new_user = res.json()
     new_user['password'] = user_data['password']
     return new_user
@@ -75,6 +80,7 @@ def authorized_client(client, token):
         **client.headers,
         "Authorization": f"Bearer {token}"
     }
+
     return client
 
 
