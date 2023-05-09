@@ -9,12 +9,9 @@ from app.database import get_db
 from app.database import Base
 from app.oauth2 import create_access_token
 from app import models
-from alembic import command
+#from alembic import command
 
-
-# SQLALCHEMY_DATABASE_URL = 'postgresql://postgres:password123@localhost:5432/fastapi_test'
-SQLALCHEMY_DATABASE_URL = f"postgresql://{settings.DATABASE_USERNAME}:{settings.DATABASE_PASSWORD}@{settings.DATABASE_HOSTNAME}:{settings.DATABASE_PORT}/{settings.DATABASE_NAME}"
-
+SQLALCHEMY_DATABASE_URL = 'postgresql://kanishk:asdfghjk@localhost:5432/fastapi_test'
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 
