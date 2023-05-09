@@ -13,7 +13,7 @@ def test_root(client):
 
 
 def test_create_user(client):
-    res = client.post("/api/users/create-user", json={
+    res = client.post("/api/users/create-user/", json={
         "email": "hello123@gmail.com",
         "password": "password123"
     })
@@ -23,7 +23,7 @@ def test_create_user(client):
 
 
 def test_login_user(test_user, client):
-    res = client.post("/api/auth/login", data={
+    res = client.post("/api/auth/login/", data={
         "username": test_user['email'],
         "password": test_user['password']
     })
@@ -45,6 +45,6 @@ def test_login_user(test_user, client):
 ])
 def test_incorrect_login(test_user, client, email, password, status_code):
     res = client.post(
-        "/api/auth/login", data={"username": email, "password": password})
+        "/api/auth/login/", data={"username": email, "password": password})
     assert res.status_code == status_code
     # assert res.json().get('detail') == 'Invalid Credentials'

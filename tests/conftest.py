@@ -15,8 +15,7 @@ SQLALCHEMY_DATABASE_URL = 'postgresql://kanishk:asdfghjk@localhost:5432/fastapi_
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 
-TestingSessionLocal = sessionmaker(
-    autocommit=False, autoflush=False, bind=engine)
+TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
 @pytest.fixture()
@@ -34,7 +33,6 @@ def session():
 @pytest.fixture()
 def client(session):
     def override_get_db():
-
         try:
             yield session
         finally:
@@ -45,12 +43,10 @@ def client(session):
 
 @pytest.fixture
 def test_user2(client):
-    user_data = {"email": "sanjeev123@gmail.com",
+    user_data = {"email": "kan123@gmail.com",
                  "password": "password123"}
-    res = client.post("/users/", json=user_data)
-
+    res = client.post("/api/users/create-user", json=user_data)
     assert res.status_code == 201
-
     new_user = res.json()
     new_user['password'] = user_data['password']
     return new_user
@@ -58,12 +54,10 @@ def test_user2(client):
 
 @pytest.fixture
 def test_user(client):
-    user_data = {"email": "sanjeev@gmail.com",
+    user_data = {"email": "kan@gmail.com",
                  "password": "password123"}
-    res = client.post("/users/", json=user_data)
-
+    res = client.post("/api/users/create-user", json=user_data)
     assert res.status_code == 201
-
     new_user = res.json()
     new_user['password'] = user_data['password']
     return new_user
@@ -80,7 +74,6 @@ def authorized_client(client, token):
         **client.headers,
         "Authorization": f"Bearer {token}"
     }
-
     return client
 
 

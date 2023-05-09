@@ -66,7 +66,7 @@ def test_create_post_default_published_true(authorized_client, test_user, test_p
 
 def test_unauthorized_user_create_post(client, test_user, test_posts):
     res = client.post(
-        "/api/posts/create-post", json={"title": "arbitrary title", "content": "aasdfjasdf"})
+        "/api/posts/create-post/", json={"title": "arbitrary title", "content": "aasdfjasdf"})
     assert res.status_code == 401
 
 
